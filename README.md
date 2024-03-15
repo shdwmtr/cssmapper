@@ -3,6 +3,11 @@
 Please note that this is currently still in development, and may not function as intended. <br>
 Join the [discord](https://millennium.web.app/discord) if you have any questions.
 
+## How it works
+
+The lexer indexes all files within the given folder hierarchy and parses them with a combination of [css-selector-parser](https://www.npmjs.com/package/css-selector-parser) and
+[postcss-safe-parser](https://www.npmjs.com/package/postcss-safe-parser). It then compares all the individual selectors with their counterpartx in the map.json diff, and updates old selectors respectively.
+
 ## Prerequisites
 
 - [Node Js](https://nodejs.org/en)
