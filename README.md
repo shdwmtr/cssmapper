@@ -1,6 +1,7 @@
 ## Class Mapper
 
-please note that this is currently still in development, and may not function as intended.
+Please note that this is currently still in development, and may not function as intended. <br>
+Join the [discord](https://millennium.web.app/discord) if you have any questions.
 
 ## Usage
 
