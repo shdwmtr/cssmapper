@@ -3,6 +3,10 @@
 Please note that this is currently still in development, and may not function as intended. <br>
 Join the [discord](https://millennium.web.app/discord) if you have any questions.
 
+## Prerequisites
+
+- [Node Js](https://nodejs.org/en)
+
 ## Usage
 
 ```ps
