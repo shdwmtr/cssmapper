@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "css-selector-parser": "^3.0.5",
+    "postcss": "^8.4.35",
+    "postcss-safe-parser": "^7.0.0",
+    "postcss-selector-parser": "^6.0.16"
+  }
+}
