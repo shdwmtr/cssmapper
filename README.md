@@ -6,7 +6,7 @@ Join the [discord](https://millennium.web.app/discord) if you have any questions
 ## Usage
 
 ```ps
-git clone https://github.com/ShadowMonster99/classmapper
+git clone https://github.com/ShadowMonster99/classmapper.git
 cd classmapper
 node install
 node lexer ${PATH_TO_THEME}
