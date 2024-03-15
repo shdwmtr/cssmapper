@@ -9,12 +9,11 @@ function get_map() {
     const filePath = 'map.json';
 
     fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading file:', err);
-            return;
-        }
-        
-        resolve(JSON.parse(data))
+      if (err) {
+        console.error('Error reading file:', err);
+        return;
+      }     
+      resolve(JSON.parse(data))
     });
   })
 }
@@ -22,8 +21,8 @@ function get_map() {
 function dump_export(filepath, content) {
   fs.writeFile(filepath, content, (err) => {
     if (err) {
-        console.error('Error writing to file:', err);
-        return;
+      console.error('Error writing to file:', err);
+      return;
     }
   });
 }
@@ -31,31 +30,23 @@ function dump_export(filepath, content) {
 function bump_lexer(filepath, map) {
   fs.readFile(filepath, (err, css) => {
     if (err) {
-        console.error('Error reading the CSS file:', err);
-        return;
+      console.error('Error reading the CSS file:', err);
+      return;
     }
 
-    out_dump = css.toString()
-
-    postcss().process(css, { parser: safeParser, from: filepath })
-    .then(result => {
-
-      const options = {
+    function preprocessor(result)
+    {
+      const parse = createParser({
           strict: false
-      }
+      });
 
-      const parse = createParser(options);
-
-      result.root.walkRules(rule => {
+      result.walkRules(rule => {
         try {
           const selector = parse(rule.selector);
 
-          if (selector.type == 'Selector')
-          {
+          if (selector.type == 'Selector') {
             selector.rules.forEach(rule => {
-
               function parse_line(item) {
-
                 if (item.name == "class") {
                   const regex = new RegExp(`\\b${item.value.value}.+`);
                   let found = false
@@ -80,9 +71,14 @@ function bump_lexer(filepath, map) {
                     item.name = map[name]
                   }
                 }
+                // handle pseudo class selectors
+                else if (item.type == "PseudoClass") {
+                  // traverse pseudo class
+                  traverse_object(item)
+                }
               }
 
-              function findItemKeys(rule) {
+              function traverse_object(rule) {
                 for (let key of Object.keys(rule)) {
                   if (key == 'items') {
                     rule[key].forEach(item => {
@@ -90,35 +86,36 @@ function bump_lexer(filepath, map) {
                     })
                   }
                   else if (typeof rule[key] === 'object') {
-                    findItemKeys(rule[key])
+                    traverse_object(rule[key])
                   }
                 }
                 return result;
               }
-              findItemKeys(rule)
+              traverse_object(rule)
             })
           }
 
-          //console.log(rule.selector)
-          console.log(`changed:\n\t${rule.selector}\n\t${render(ast.selector(selector))}`)
+          const new_class = render(ast.selector(selector))
 
-          if (out_dump.includes(rule.selector)) {
-            out_dump = out_dump.replaceAll(rule.selector, render(ast.selector(selector)))
-          }
+          console.log(`changed:\n\t${rule.selector}\n\t${new_class}`)
+          rule.selector = new_class;
 
         } catch (error) {
-          console.error("error caught:", error)
+          console.error("[non-fatal]", String(error.message));
         }
-      });
+      })
+    }
+
+    postcss([ preprocessor ]).process(css, { parser: safeParser, from: undefined })
+    .then(result => {
       console.log("[+] finished file ->", filepath);
-      dump_export(filepath, out_dump)
+      dump_export(filepath, result.css)
     })
     .catch(error => {
-        console.error('Error parsing the CSS:', error);
+      console.error('Error parsing the CSS:', String(error.message));
     })
   });
 }
-
 
 function index_dir(directory, fileList = []) {
   const files = fs.readdirSync(directory);
@@ -146,3 +143,5 @@ get_map().then(map =>
     bump_lexer(css_entry, map)
   })
 })
+
+// setTimeout(() => {}, 100000)
