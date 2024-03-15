@@ -5,7 +5,7 @@ const {createParser, ast, render} = require('css-selector-parser');
 const path = require('path');
 
 function get_map() {
-return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const filePath = 'map.json';
 
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -16,21 +16,19 @@ return new Promise((resolve, reject) => {
         
         resolve(JSON.parse(data))
     });
-})
+  })
 }
 
 function dump_export(filepath, content) {
-
-fs.writeFile(filepath, content, (err) => {
-  if (err) {
-      console.error('Error writing to file:', err);
-      return;
-  }
-});
+  fs.writeFile(filepath, content, (err) => {
+    if (err) {
+        console.error('Error writing to file:', err);
+        return;
+    }
+  });
 }
 
 function bump_lexer(filepath, map) {
-
   fs.readFile(filepath, (err, css) => {
     if (err) {
         console.error('Error reading the CSS file:', err);
@@ -75,25 +73,25 @@ function bump_lexer(filepath, map) {
                   }
                 }
                 else if (item.type == "ClassName") {
-                    const name = item.name
-                    mapped = map[name]
+                  const name = item.name
+                  mapped = map[name]
 
-                    if (mapped !== undefined) {
-                        item.name = map[name]
-                    }
+                  if (mapped !== undefined) {
+                    item.name = map[name]
+                  }
                 }
               }
 
               function findItemKeys(rule) {
                 for (let key of Object.keys(rule)) {
-                    if (key == 'items') {
-                        rule[key].forEach(item => {
-                            parse_line(item)
-                        })
-                    }
-                    else if (typeof rule[key] === 'object') {
-                        findItemKeys(rule[key])
-                    }
+                  if (key == 'items') {
+                    rule[key].forEach(item => {
+                        parse_line(item)
+                    })
+                  }
+                  else if (typeof rule[key] === 'object') {
+                    findItemKeys(rule[key])
+                  }
                 }
                 return result;
               }
@@ -101,14 +99,15 @@ function bump_lexer(filepath, map) {
             })
           }
 
+          //console.log(rule.selector)
           console.log(`changed:\n\t${rule.selector}\n\t${render(ast.selector(selector))}`)
 
           if (out_dump.includes(rule.selector)) {
-              out_dump = out_dump.replace(rule.selector, render(ast.selector(selector)))
+            out_dump = out_dump.replaceAll(rule.selector, render(ast.selector(selector)))
           }
 
         } catch (error) {
-            console.error("error caught:", error)
+          console.error("error caught:", error)
         }
       });
       console.log("[+] finished file ->", filepath);
@@ -121,18 +120,18 @@ function bump_lexer(filepath, map) {
 }
 
 
-function getAllCssFiles(directory, fileList = []) {
+function index_dir(directory, fileList = []) {
   const files = fs.readdirSync(directory);
 
   files.forEach(file => {
-      const filePath = path.join(directory, file);
-      const stat = fs.statSync(filePath);
+    const filePath = path.join(directory, file);
+    const stat = fs.statSync(filePath);
 
-      if (stat.isDirectory()) {
-          getAllCssFiles(filePath, fileList);
-      } else if (path.extname(file) === '.css') {
-          fileList.push(filePath);
-      }
+    if (stat.isDirectory()) {
+      index_dir(filePath, fileList);
+    } else if (path.extname(file) === '.css') {
+      fileList.push(filePath);
+    }
   });
   return fileList;
 }
@@ -140,10 +139,10 @@ function getAllCssFiles(directory, fileList = []) {
 get_map().then(map => 
 {
   console.log("indexing files in", process.argv[2])
-  const files = getAllCssFiles(process.argv[2])
+  const files = index_dir(process.argv[2])
 
   files.forEach(css_entry => {
-      console.log("[+] converting ->", css_entry)
-      bump_lexer(css_entry, map)
+    console.log("[+] converting ->", css_entry)
+    bump_lexer(css_entry, map)
   })
 })
