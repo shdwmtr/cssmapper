@@ -27,7 +27,7 @@ function dump_export(filepath, content) {
   });
 }
 
-function bump_lexer(filepath, map) {
+function bump_lexer(filepath, map, add_comment) {
   fs.readFile(filepath, (err, css) => {
     if (err) {
       console.error('Error reading the CSS file:', err);
@@ -94,12 +94,14 @@ function bump_lexer(filepath, map) {
               traverse_object(rule)
             })
           }
-
-          const new_class = render(ast.selector(selector))
+          const regex = /\[class\*="([^"]+)"\]/gm;
+          const new_class = String(render(ast.selector(selector))).replace(regex, `.$1`)
 
           console.log(`changed:\n\t${rule.selector}\n\t${new_class}`)
-          rule.selector = new_class;
 
+          if (rule.selector != new_class) {
+            rule.selector = add_comment ? `/* ${rule.selector} */\n${new_class}` : new_class;
+          }
         } catch (error) {
           console.error("[non-fatal]", String(error.message));
         }
@@ -138,9 +140,10 @@ get_map().then(map =>
   console.log("indexing files in", process.argv[2])
   const files = index_dir(process.argv[2])
 
+
   files.forEach(css_entry => {
     console.log("[+] converting ->", css_entry)
-    bump_lexer(css_entry, map)
+    bump_lexer(css_entry, map, process.argv.includes("--comment"))
   })
 })
 
