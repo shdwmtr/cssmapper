@@ -17,7 +17,7 @@ The lexer indexes all files within the given folder hierarchy and parses them wi
 ```ps
 git clone https://github.com/ShadowMonster99/classmapper.git
 cd classmapper
-node install
+npm install
 node lexer ${PATH_TO_THEME}
 ```
 - PATH_TO_THEME represents a recursively indexed folder on disk that contains x amount of CSS files.
