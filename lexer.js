@@ -99,7 +99,7 @@ function bump_lexer(filepath, map, add_comment) {
 
           console.log(`changed:\n\t${rule.selector}\n\t${new_class}`)
 
-          if (rule.selector != new_class) {
+          if (rule.selector.replace(/ /g, "") != new_class.replace(/ /g, "")) {
             rule.selector = add_comment ? `/* ${rule.selector} */\n${new_class}` : new_class;
           }
         } catch (error) {
