@@ -8,6 +8,11 @@ Join the [discord](https://millennium.web.app/discord) if you have any questions
 The lexer indexes all files within the given folder hierarchy and parses them with a combination of [css-selector-parser](https://www.npmjs.com/package/css-selector-parser) and
 [postcss-safe-parser](https://www.npmjs.com/package/postcss-safe-parser). It then compares all the individual selectors with their counterpart in the map.json diff, and updates old selectors respectively.
 
+## Limitations
+
+The selector parsing library used does not properly parse everything perfectly. some pseudoclasses arent parsed properly and the old classes will remain.
+You should always diff the converted files and search for outliers and you will need to manually update these outliers from old to new classname. You can CTRL + F [this document](https://raw.githubusercontent.com/SteamClientHomebrew/ClassMapper/master/map.json) to find the new classname from an old one respectively. 
+
 ## Prerequisites
 
 - [Node Js](https://nodejs.org/en)
