@@ -15,8 +15,8 @@ The lexer indexes all files within the given folder hierarchy and parses them wi
 ## Usage
 
 ```ps
-git clone https://github.com/ShadowMonster99/classmapper.git
-cd classmapper
+git clone https://github.com/SteamClientHomebrew/ClassMapper.git
+cd ClassMapper
 npm install
 node lexer ${PATH_TO_THEME}
 ```
