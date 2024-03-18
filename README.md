@@ -1,4 +1,4 @@
-## Class Mapper
+## SCH-ClassMapper
 Steam developers decided to update all the CSS classnames inside the Steam Client for seemingly no good reason. This fixes that. <br><br>
 Please note that this is currently still in development, and may not function as intended. <br>
 Join the [discord](https://millennium.web.app/discord) if you have any questions.
