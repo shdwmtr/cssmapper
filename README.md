@@ -31,11 +31,11 @@ node lexer ${PATH_TO_THEME}
 ```
 - PATH_TO_THEME represents a recursively indexed folder on disk that contains x amount of CSS files.
 ### Using GitHub Actions
-1. In your GitHub repository containing your CSS files, create a new branch named **test**.
+1. In your GitHub repository containing your CSS files, create a new branch. this branch will hold your converted CSS files.
 1. Go to the branch and create *.github/workflows/node.js.yml* as a new file.
 1. Copy and paste the contents of [workflows/lexer.yml](./workflows/lexer.yml) to it and commit.
 1. Wait for the workflow to push the changes.
-1. Merge with your main branch if everything looks right.
+1. Assuming you've checked [limitations](/#Limitations) and everything is correct, merge the created branch with your main branch.
 
 ## References:
 - [PartyWumpus'](https://gist.github.com/PartyWumpus) git diff mapping implementation [here](https://gist.github.com/PartyWumpus/b1bc83b5b29b155e40742d0aa290f0db)
