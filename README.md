@@ -16,6 +16,7 @@ You should always diff the converted files and search for outliers and you will 
 ## Prerequisites
 
 - [Node Js](https://nodejs.org/en)
+- The required node modules covered in [usage](/#Usage)
 
 ## Usage
 
