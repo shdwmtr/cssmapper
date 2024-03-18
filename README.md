@@ -13,7 +13,7 @@ The lexer indexes all files within the given folder hierarchy and parses them wi
 - [Node Js](https://nodejs.org/en)
 
 ## Usage
-
+### Locally
 ```ps
 git clone https://github.com/SteamClientHomebrew/ClassMapper.git
 cd ClassMapper
@@ -21,7 +21,12 @@ npm install
 node lexer ${PATH_TO_THEME}
 ```
 - PATH_TO_THEME represents a recursively indexed folder on disk that contains x amount of CSS files.
-
+### Using GitHub Actions
+1. In your GitHub repository containing your CSS files, create a new branch named **test**.
+1. Go to the branch and create *.github/workflows/node.js.yml* as a new file.
+1. Copy and paste the contents of [workflows/lexer.yml](./workflows/lexer.yml) to it and commit.
+1. Wait for the workflow to push the changes.
+1. Merge with your main branch if everything looks right.
 
 ## References:
 - [PartyWumpus'](https://gist.github.com/PartyWumpus) git diff mapping implementation [here](https://gist.github.com/PartyWumpus/b1bc83b5b29b155e40742d0aa290f0db)
