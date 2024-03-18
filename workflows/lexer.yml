@@ -34,5 +34,5 @@ jobs:
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
         git add .
-        git commit -m "ClassMapper"
+        git commit -m "SCH-ClassMapper"
         git push
