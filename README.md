@@ -1,10 +1,6 @@
-<img src="https://i.imgur.com/9qYPFSA.png" alt="Alt text" width="40">
+## CSS Mapper
 
-## SCH-ClassMapper
-
-Steam developers decided to update all the CSS classnames inside the Steam Client for seemingly no good reason. This fixes that. <br><br>
-Please note that this is currently still in development, and may not function as intended. <br>
-Join the [discord](https://millennium.web.app/discord) if you have any questions.
+A simple utility to bulk replace/rename CSS class names from a JSON map.
 
 ## How it works
 
@@ -14,7 +10,7 @@ The lexer indexes all files within the given folder hierarchy and parses them wi
 ## Limitations
 
 The selector parsing library used does not properly parse everything perfectly. some pseudoclasses arent parsed properly and the old classes will remain.
-You should always diff the converted files and search for outliers and you will need to manually update these outliers from old to new classname. You can CTRL + F [this document](https://raw.githubusercontent.com/SteamClientHomebrew/ClassMapper/master/map.json) to find the new classname from an old one respectively. 
+You should always diff the converted files and search for outliers and you will need to manually update these outliers from old to new classname. 
 
 ## Prerequisites
 
@@ -24,8 +20,8 @@ You should always diff the converted files and search for outliers and you will 
 ## Usage
 ### Locally
 ```ps
-git clone https://github.com/SteamClientHomebrew/ClassMapper.git
-cd ClassMapper
+git clone https://github.com/shdwmtr/cssmapper.git
+cd cssmapper
 npm install
 node lexer ${PATH_TO_THEME}
 ```
@@ -36,6 +32,3 @@ node lexer ${PATH_TO_THEME}
 1. Copy and paste the contents of [workflows/lexer.yml](./workflows/lexer.yml) to it and commit.
 1. Wait for the workflow to push the changes.
 1. Assuming you've checked [limitations](/#Limitations) and everything is correct, merge the created branch with your main branch.
-
-## References:
-- [PartyWumpus'](https://gist.github.com/PartyWumpus) git diff mapping implementation [here](https://gist.github.com/PartyWumpus/b1bc83b5b29b155e40742d0aa290f0db)
